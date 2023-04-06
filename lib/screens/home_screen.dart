@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:toonflix/model/webtoon_model.dart';
+import 'package:toonflix/services/api_service.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -8,8 +10,27 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<WebtoonModel> webtoons = [];
+  bool isLoading = true;
+
+  void waitForWebtoons() async {
+    // getTodaysToons()가 비동기 함수
+    webtoons = await ApiService.getTodaysToons();
+    isLoading = false;
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    waitForWebtoons();
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(webtoons);
+    print(isLoading);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
